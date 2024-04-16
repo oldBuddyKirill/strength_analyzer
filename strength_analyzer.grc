@@ -66,7 +66,7 @@ blocks:
     start: 80e6
     step: 0.1e6
     stop: 120e6
-    value: 88.8e6
+    value: 91e6
     widget: counter_slider
   states:
     bus_sink: false
@@ -85,6 +85,42 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [832, 8.0]
+    rotation: 0
+    state: true
+- name: channel_10
+  id: variable
+  parameters:
+    comment: ''
+    value: 94.1e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1008, 80.0]
+    rotation: 0
+    state: true
+- name: channel_11
+  id: variable
+  parameters:
+    comment: ''
+    value: 95e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1008, 152.0]
+    rotation: 0
+    state: true
+- name: channel_12
+  id: variable
+  parameters:
+    comment: ''
+    value: 95.5e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1008, 224.0]
     rotation: 0
     state: true
 - name: channel_2
@@ -147,6 +183,42 @@ blocks:
     coordinate: [920, 80.0]
     rotation: 0
     state: true
+- name: channel_7
+  id: variable
+  parameters:
+    comment: ''
+    value: 90.6e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [920, 152.0]
+    rotation: 0
+    state: true
+- name: channel_8
+  id: variable
+  parameters:
+    comment: ''
+    value: 92.9e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [920, 224.0]
+    rotation: 0
+    state: true
+- name: channel_9
+  id: variable
+  parameters:
+    comment: ''
+    value: 93.3e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1008, 8.0]
+    rotation: 0
+    state: true
 - name: cutoff_freq
   id: variable
   parameters:
@@ -156,7 +228,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [592, 152.0]
+    coordinate: [592, 80.0]
     rotation: 0
     state: true
 - name: data_dir
@@ -196,7 +268,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '10'
+    value: '50'
   states:
     bus_sink: false
     bus_source: false
@@ -213,14 +285,14 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [592, 80.0]
+    coordinate: [1368, 408.0]
     rotation: 0
     state: enabled
 - name: samp_rate
   id: variable
   parameters:
     comment: ''
-    value: 3.2e6
+    value: 10e6
   states:
     bus_sink: false
     bus_source: false
@@ -237,7 +309,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [592, 224.0]
+    coordinate: [592, 152.0]
     rotation: 0
     state: true
 - name: blocks_throttle2_2
@@ -301,6 +373,26 @@ blocks:
     coordinate: [800, 604.0]
     rotation: 0
     state: true
+- name: channel_spectrum_writer_0_0_0
+  id: channel_spectrum_writer
+  parameters:
+    affinity: ''
+    alias: ''
+    center_freq: center_freq
+    channel_freq: channel_8
+    comment: ''
+    cutoff_freq: cutoff_freq
+    file_dir: data_dir
+    input_decimation: input_decimation
+    samp_rate: samp_rate
+    transition_width: transition_width
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [800, 772.0]
+    rotation: 0
+    state: true
 - name: channel_spectrum_writer_0_1
   id: channel_spectrum_writer
   parameters:
@@ -321,6 +413,26 @@ blocks:
     coordinate: [984, 604.0]
     rotation: 0
     state: true
+- name: channel_spectrum_writer_0_1_0
+  id: channel_spectrum_writer
+  parameters:
+    affinity: ''
+    alias: ''
+    center_freq: center_freq
+    channel_freq: channel_9
+    comment: ''
+    cutoff_freq: cutoff_freq
+    file_dir: data_dir
+    input_decimation: input_decimation
+    samp_rate: samp_rate
+    transition_width: transition_width
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [984, 772.0]
+    rotation: 0
+    state: enabled
 - name: channel_spectrum_writer_0_2
   id: channel_spectrum_writer
   parameters:
@@ -341,6 +453,26 @@ blocks:
     coordinate: [1160, 604.0]
     rotation: 0
     state: true
+- name: channel_spectrum_writer_0_2_0
+  id: channel_spectrum_writer
+  parameters:
+    affinity: ''
+    alias: ''
+    center_freq: center_freq
+    channel_freq: channel_10
+    comment: ''
+    cutoff_freq: cutoff_freq
+    file_dir: data_dir
+    input_decimation: input_decimation
+    samp_rate: samp_rate
+    transition_width: transition_width
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1160, 772.0]
+    rotation: 0
+    state: enabled
 - name: channel_spectrum_writer_0_3
   id: channel_spectrum_writer
   parameters:
@@ -361,6 +493,26 @@ blocks:
     coordinate: [1336, 604.0]
     rotation: 0
     state: true
+- name: channel_spectrum_writer_0_3_0
+  id: channel_spectrum_writer
+  parameters:
+    affinity: ''
+    alias: ''
+    center_freq: center_freq
+    channel_freq: channel_11
+    comment: ''
+    cutoff_freq: cutoff_freq
+    file_dir: data_dir
+    input_decimation: input_decimation
+    samp_rate: samp_rate
+    transition_width: transition_width
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1336, 772.0]
+    rotation: 0
+    state: enabled
 - name: channel_spectrum_writer_0_4
   id: channel_spectrum_writer
   parameters:
@@ -379,6 +531,46 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [1512, 604.0]
+    rotation: 0
+    state: true
+- name: channel_spectrum_writer_0_4_0
+  id: channel_spectrum_writer
+  parameters:
+    affinity: ''
+    alias: ''
+    center_freq: center_freq
+    channel_freq: channel_12
+    comment: ''
+    cutoff_freq: cutoff_freq
+    file_dir: data_dir
+    input_decimation: input_decimation
+    samp_rate: samp_rate
+    transition_width: transition_width
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1512, 772.0]
+    rotation: 0
+    state: enabled
+- name: channel_spectrum_writer_0_5
+  id: channel_spectrum_writer
+  parameters:
+    affinity: ''
+    alias: ''
+    center_freq: center_freq
+    channel_freq: channel_7
+    comment: ''
+    cutoff_freq: cutoff_freq
+    file_dir: data_dir
+    input_decimation: input_decimation
+    samp_rate: samp_rate
+    transition_width: transition_width
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [624, 772.0]
     rotation: 0
     state: true
 - name: import_1
@@ -766,7 +958,7 @@ blocks:
     name: '"Spectrum analizer"'
     plotconst: 'True'
     plotfreq: 'True'
-    plottime: 'True'
+    plottime: 'False'
     plotwaterfall: 'True'
     rate: '10'
     showports: 'False'
@@ -777,17 +969,23 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [792, 376.0]
+    coordinate: [1048, 376.0]
     rotation: 0
     state: enabled
 
 connections:
 - [blocks_throttle2_2, '0', channel_spectrum_writer_0, '0']
 - [blocks_throttle2_2, '0', channel_spectrum_writer_0_0, '0']
+- [blocks_throttle2_2, '0', channel_spectrum_writer_0_0_0, '0']
 - [blocks_throttle2_2, '0', channel_spectrum_writer_0_1, '0']
+- [blocks_throttle2_2, '0', channel_spectrum_writer_0_1_0, '0']
 - [blocks_throttle2_2, '0', channel_spectrum_writer_0_2, '0']
+- [blocks_throttle2_2, '0', channel_spectrum_writer_0_2_0, '0']
 - [blocks_throttle2_2, '0', channel_spectrum_writer_0_3, '0']
+- [blocks_throttle2_2, '0', channel_spectrum_writer_0_3_0, '0']
 - [blocks_throttle2_2, '0', channel_spectrum_writer_0_4, '0']
+- [blocks_throttle2_2, '0', channel_spectrum_writer_0_4_0, '0']
+- [blocks_throttle2_2, '0', channel_spectrum_writer_0_5, '0']
 - [blocks_throttle2_2, '0', qtgui_sink_x_0_0_0, '0']
 - [osmosdr_source_0, '0', blocks_throttle2_2, '0']
 

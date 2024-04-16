@@ -70,20 +70,26 @@ class strength_analyzer(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.samp_rate = samp_rate = 3.2e6
-        self.input_decimation = input_decimation = 10
+        self.samp_rate = samp_rate = 10e6
+        self.input_decimation = input_decimation = 50
         self.transition_width = transition_width = 5e3
         self.main_sample_rate = main_sample_rate = samp_rate / input_decimation
         self.if_gain = if_gain = 24
         self.data_dir = data_dir = "data/"
         self.cutoff_freq = cutoff_freq = 50e3
+        self.channel_9 = channel_9 = 93.3e6
+        self.channel_8 = channel_8 = 92.9e6
+        self.channel_7 = channel_7 = 90.6e6
         self.channel_6 = channel_6 = 90.1e6
         self.channel_5 = channel_5 = 89.7e6
         self.channel_4 = channel_4 = 89.3e6
         self.channel_3 = channel_3 = 88.4e6
         self.channel_2 = channel_2 = 88e6
+        self.channel_12 = channel_12 = 95.5e6
+        self.channel_11 = channel_11 = 95e6
+        self.channel_10 = channel_10 = 94.1e6
         self.channel_1 = channel_1 = 87.5e6
-        self.center_freq = center_freq = 88.8e6
+        self.center_freq = center_freq = 91e6
         self.bb_gain = bb_gain = 30
 
         ##################################################
@@ -93,7 +99,7 @@ class strength_analyzer(gr.top_block, Qt.QWidget):
         self._if_gain_range = Range(0, 40, 8, 24, 200)
         self._if_gain_win = RangeWidget(self._if_gain_range, self.set_if_gain, "'if_gain'", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._if_gain_win)
-        self._center_freq_range = Range(80e6, 120e6, 0.1e6, 88.8e6, 200)
+        self._center_freq_range = Range(80e6, 120e6, 0.1e6, 91e6, 200)
         self._center_freq_win = RangeWidget(self._center_freq_range, self.set_center_freq, "Center Frequency", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._center_freq_win)
         self._bb_gain_range = Range(0, 62, 2, 30, 200)
@@ -107,7 +113,7 @@ class strength_analyzer(gr.top_block, Qt.QWidget):
             "Spectrum analizer", #name
             True, #plotfreq
             True, #plotwaterfall
-            True, #plottime
+            False, #plottime
             True, #plotconst
             None # parent
         )
@@ -132,9 +138,36 @@ class strength_analyzer(gr.top_block, Qt.QWidget):
         self.osmosdr_source_0.set_bb_gain(bb_gain, 0)
         self.osmosdr_source_0.set_antenna('', 0)
         self.osmosdr_source_0.set_bandwidth(0, 0)
+        self.channel_spectrum_writer_0_5 = channel_spectrum_writer(
+            center_freq=center_freq,
+            channel_freq=channel_7,
+            cutoff_freq=cutoff_freq,
+            file_dir=data_dir,
+            input_decimation=input_decimation,
+            samp_rate=samp_rate,
+            transition_width=transition_width,
+        )
+        self.channel_spectrum_writer_0_4_0 = channel_spectrum_writer(
+            center_freq=center_freq,
+            channel_freq=channel_12,
+            cutoff_freq=cutoff_freq,
+            file_dir=data_dir,
+            input_decimation=input_decimation,
+            samp_rate=samp_rate,
+            transition_width=transition_width,
+        )
         self.channel_spectrum_writer_0_4 = channel_spectrum_writer(
             center_freq=center_freq,
             channel_freq=channel_6,
+            cutoff_freq=cutoff_freq,
+            file_dir=data_dir,
+            input_decimation=input_decimation,
+            samp_rate=samp_rate,
+            transition_width=transition_width,
+        )
+        self.channel_spectrum_writer_0_3_0 = channel_spectrum_writer(
+            center_freq=center_freq,
+            channel_freq=channel_11,
             cutoff_freq=cutoff_freq,
             file_dir=data_dir,
             input_decimation=input_decimation,
@@ -150,6 +183,15 @@ class strength_analyzer(gr.top_block, Qt.QWidget):
             samp_rate=samp_rate,
             transition_width=transition_width,
         )
+        self.channel_spectrum_writer_0_2_0 = channel_spectrum_writer(
+            center_freq=center_freq,
+            channel_freq=channel_10,
+            cutoff_freq=cutoff_freq,
+            file_dir=data_dir,
+            input_decimation=input_decimation,
+            samp_rate=samp_rate,
+            transition_width=transition_width,
+        )
         self.channel_spectrum_writer_0_2 = channel_spectrum_writer(
             center_freq=center_freq,
             channel_freq=channel_4,
@@ -159,9 +201,27 @@ class strength_analyzer(gr.top_block, Qt.QWidget):
             samp_rate=samp_rate,
             transition_width=transition_width,
         )
+        self.channel_spectrum_writer_0_1_0 = channel_spectrum_writer(
+            center_freq=center_freq,
+            channel_freq=channel_9,
+            cutoff_freq=cutoff_freq,
+            file_dir=data_dir,
+            input_decimation=input_decimation,
+            samp_rate=samp_rate,
+            transition_width=transition_width,
+        )
         self.channel_spectrum_writer_0_1 = channel_spectrum_writer(
             center_freq=center_freq,
             channel_freq=channel_3,
+            cutoff_freq=cutoff_freq,
+            file_dir=data_dir,
+            input_decimation=input_decimation,
+            samp_rate=samp_rate,
+            transition_width=transition_width,
+        )
+        self.channel_spectrum_writer_0_0_0 = channel_spectrum_writer(
+            center_freq=center_freq,
+            channel_freq=channel_8,
             cutoff_freq=cutoff_freq,
             file_dir=data_dir,
             input_decimation=input_decimation,
@@ -194,10 +254,16 @@ class strength_analyzer(gr.top_block, Qt.QWidget):
         ##################################################
         self.connect((self.blocks_throttle2_2, 0), (self.channel_spectrum_writer_0, 0))
         self.connect((self.blocks_throttle2_2, 0), (self.channel_spectrum_writer_0_0, 0))
+        self.connect((self.blocks_throttle2_2, 0), (self.channel_spectrum_writer_0_0_0, 0))
         self.connect((self.blocks_throttle2_2, 0), (self.channel_spectrum_writer_0_1, 0))
+        self.connect((self.blocks_throttle2_2, 0), (self.channel_spectrum_writer_0_1_0, 0))
         self.connect((self.blocks_throttle2_2, 0), (self.channel_spectrum_writer_0_2, 0))
+        self.connect((self.blocks_throttle2_2, 0), (self.channel_spectrum_writer_0_2_0, 0))
         self.connect((self.blocks_throttle2_2, 0), (self.channel_spectrum_writer_0_3, 0))
+        self.connect((self.blocks_throttle2_2, 0), (self.channel_spectrum_writer_0_3_0, 0))
         self.connect((self.blocks_throttle2_2, 0), (self.channel_spectrum_writer_0_4, 0))
+        self.connect((self.blocks_throttle2_2, 0), (self.channel_spectrum_writer_0_4_0, 0))
+        self.connect((self.blocks_throttle2_2, 0), (self.channel_spectrum_writer_0_5, 0))
         self.connect((self.blocks_throttle2_2, 0), (self.qtgui_sink_x_0_0_0, 0))
         self.connect((self.osmosdr_source_0, 0), (self.blocks_throttle2_2, 0))
 
@@ -219,10 +285,16 @@ class strength_analyzer(gr.top_block, Qt.QWidget):
         self.blocks_throttle2_2.set_sample_rate(self.samp_rate)
         self.channel_spectrum_writer_0.set_samp_rate(self.samp_rate)
         self.channel_spectrum_writer_0_0.set_samp_rate(self.samp_rate)
+        self.channel_spectrum_writer_0_0_0.set_samp_rate(self.samp_rate)
         self.channel_spectrum_writer_0_1.set_samp_rate(self.samp_rate)
+        self.channel_spectrum_writer_0_1_0.set_samp_rate(self.samp_rate)
         self.channel_spectrum_writer_0_2.set_samp_rate(self.samp_rate)
+        self.channel_spectrum_writer_0_2_0.set_samp_rate(self.samp_rate)
         self.channel_spectrum_writer_0_3.set_samp_rate(self.samp_rate)
+        self.channel_spectrum_writer_0_3_0.set_samp_rate(self.samp_rate)
         self.channel_spectrum_writer_0_4.set_samp_rate(self.samp_rate)
+        self.channel_spectrum_writer_0_4_0.set_samp_rate(self.samp_rate)
+        self.channel_spectrum_writer_0_5.set_samp_rate(self.samp_rate)
         self.osmosdr_source_0.set_sample_rate(self.samp_rate)
         self.qtgui_sink_x_0_0_0.set_frequency_range(self.center_freq, self.samp_rate)
 
@@ -234,10 +306,16 @@ class strength_analyzer(gr.top_block, Qt.QWidget):
         self.set_main_sample_rate(self.samp_rate / self.input_decimation)
         self.channel_spectrum_writer_0.set_input_decimation(self.input_decimation)
         self.channel_spectrum_writer_0_0.set_input_decimation(self.input_decimation)
+        self.channel_spectrum_writer_0_0_0.set_input_decimation(self.input_decimation)
         self.channel_spectrum_writer_0_1.set_input_decimation(self.input_decimation)
+        self.channel_spectrum_writer_0_1_0.set_input_decimation(self.input_decimation)
         self.channel_spectrum_writer_0_2.set_input_decimation(self.input_decimation)
+        self.channel_spectrum_writer_0_2_0.set_input_decimation(self.input_decimation)
         self.channel_spectrum_writer_0_3.set_input_decimation(self.input_decimation)
+        self.channel_spectrum_writer_0_3_0.set_input_decimation(self.input_decimation)
         self.channel_spectrum_writer_0_4.set_input_decimation(self.input_decimation)
+        self.channel_spectrum_writer_0_4_0.set_input_decimation(self.input_decimation)
+        self.channel_spectrum_writer_0_5.set_input_decimation(self.input_decimation)
 
     def get_transition_width(self):
         return self.transition_width
@@ -246,10 +324,16 @@ class strength_analyzer(gr.top_block, Qt.QWidget):
         self.transition_width = transition_width
         self.channel_spectrum_writer_0.set_transition_width(self.transition_width)
         self.channel_spectrum_writer_0_0.set_transition_width(self.transition_width)
+        self.channel_spectrum_writer_0_0_0.set_transition_width(self.transition_width)
         self.channel_spectrum_writer_0_1.set_transition_width(self.transition_width)
+        self.channel_spectrum_writer_0_1_0.set_transition_width(self.transition_width)
         self.channel_spectrum_writer_0_2.set_transition_width(self.transition_width)
+        self.channel_spectrum_writer_0_2_0.set_transition_width(self.transition_width)
         self.channel_spectrum_writer_0_3.set_transition_width(self.transition_width)
+        self.channel_spectrum_writer_0_3_0.set_transition_width(self.transition_width)
         self.channel_spectrum_writer_0_4.set_transition_width(self.transition_width)
+        self.channel_spectrum_writer_0_4_0.set_transition_width(self.transition_width)
+        self.channel_spectrum_writer_0_5.set_transition_width(self.transition_width)
 
     def get_main_sample_rate(self):
         return self.main_sample_rate
@@ -271,10 +355,16 @@ class strength_analyzer(gr.top_block, Qt.QWidget):
         self.data_dir = data_dir
         self.channel_spectrum_writer_0.set_file_dir(self.data_dir)
         self.channel_spectrum_writer_0_0.set_file_dir(self.data_dir)
+        self.channel_spectrum_writer_0_0_0.set_file_dir(self.data_dir)
         self.channel_spectrum_writer_0_1.set_file_dir(self.data_dir)
+        self.channel_spectrum_writer_0_1_0.set_file_dir(self.data_dir)
         self.channel_spectrum_writer_0_2.set_file_dir(self.data_dir)
+        self.channel_spectrum_writer_0_2_0.set_file_dir(self.data_dir)
         self.channel_spectrum_writer_0_3.set_file_dir(self.data_dir)
+        self.channel_spectrum_writer_0_3_0.set_file_dir(self.data_dir)
         self.channel_spectrum_writer_0_4.set_file_dir(self.data_dir)
+        self.channel_spectrum_writer_0_4_0.set_file_dir(self.data_dir)
+        self.channel_spectrum_writer_0_5.set_file_dir(self.data_dir)
 
     def get_cutoff_freq(self):
         return self.cutoff_freq
@@ -283,10 +373,37 @@ class strength_analyzer(gr.top_block, Qt.QWidget):
         self.cutoff_freq = cutoff_freq
         self.channel_spectrum_writer_0.set_cutoff_freq(self.cutoff_freq)
         self.channel_spectrum_writer_0_0.set_cutoff_freq(self.cutoff_freq)
+        self.channel_spectrum_writer_0_0_0.set_cutoff_freq(self.cutoff_freq)
         self.channel_spectrum_writer_0_1.set_cutoff_freq(self.cutoff_freq)
+        self.channel_spectrum_writer_0_1_0.set_cutoff_freq(self.cutoff_freq)
         self.channel_spectrum_writer_0_2.set_cutoff_freq(self.cutoff_freq)
+        self.channel_spectrum_writer_0_2_0.set_cutoff_freq(self.cutoff_freq)
         self.channel_spectrum_writer_0_3.set_cutoff_freq(self.cutoff_freq)
+        self.channel_spectrum_writer_0_3_0.set_cutoff_freq(self.cutoff_freq)
         self.channel_spectrum_writer_0_4.set_cutoff_freq(self.cutoff_freq)
+        self.channel_spectrum_writer_0_4_0.set_cutoff_freq(self.cutoff_freq)
+        self.channel_spectrum_writer_0_5.set_cutoff_freq(self.cutoff_freq)
+
+    def get_channel_9(self):
+        return self.channel_9
+
+    def set_channel_9(self, channel_9):
+        self.channel_9 = channel_9
+        self.channel_spectrum_writer_0_1_0.set_channel_freq(self.channel_9)
+
+    def get_channel_8(self):
+        return self.channel_8
+
+    def set_channel_8(self, channel_8):
+        self.channel_8 = channel_8
+        self.channel_spectrum_writer_0_0_0.set_channel_freq(self.channel_8)
+
+    def get_channel_7(self):
+        return self.channel_7
+
+    def set_channel_7(self, channel_7):
+        self.channel_7 = channel_7
+        self.channel_spectrum_writer_0_5.set_channel_freq(self.channel_7)
 
     def get_channel_6(self):
         return self.channel_6
@@ -323,6 +440,27 @@ class strength_analyzer(gr.top_block, Qt.QWidget):
         self.channel_2 = channel_2
         self.channel_spectrum_writer_0_0.set_channel_freq(self.channel_2)
 
+    def get_channel_12(self):
+        return self.channel_12
+
+    def set_channel_12(self, channel_12):
+        self.channel_12 = channel_12
+        self.channel_spectrum_writer_0_4_0.set_channel_freq(self.channel_12)
+
+    def get_channel_11(self):
+        return self.channel_11
+
+    def set_channel_11(self, channel_11):
+        self.channel_11 = channel_11
+        self.channel_spectrum_writer_0_3_0.set_channel_freq(self.channel_11)
+
+    def get_channel_10(self):
+        return self.channel_10
+
+    def set_channel_10(self, channel_10):
+        self.channel_10 = channel_10
+        self.channel_spectrum_writer_0_2_0.set_channel_freq(self.channel_10)
+
     def get_channel_1(self):
         return self.channel_1
 
@@ -337,10 +475,16 @@ class strength_analyzer(gr.top_block, Qt.QWidget):
         self.center_freq = center_freq
         self.channel_spectrum_writer_0.set_center_freq(self.center_freq)
         self.channel_spectrum_writer_0_0.set_center_freq(self.center_freq)
+        self.channel_spectrum_writer_0_0_0.set_center_freq(self.center_freq)
         self.channel_spectrum_writer_0_1.set_center_freq(self.center_freq)
+        self.channel_spectrum_writer_0_1_0.set_center_freq(self.center_freq)
         self.channel_spectrum_writer_0_2.set_center_freq(self.center_freq)
+        self.channel_spectrum_writer_0_2_0.set_center_freq(self.center_freq)
         self.channel_spectrum_writer_0_3.set_center_freq(self.center_freq)
+        self.channel_spectrum_writer_0_3_0.set_center_freq(self.center_freq)
         self.channel_spectrum_writer_0_4.set_center_freq(self.center_freq)
+        self.channel_spectrum_writer_0_4_0.set_center_freq(self.center_freq)
+        self.channel_spectrum_writer_0_5.set_center_freq(self.center_freq)
         self.osmosdr_source_0.set_center_freq(self.center_freq, 0)
         self.qtgui_sink_x_0_0_0.set_frequency_range(self.center_freq, self.samp_rate)
 
