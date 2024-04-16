@@ -8,16 +8,42 @@ from datetime import datetime
 from heapq import nlargest
 
 channels = [
-    87.5e6,
-    88.4e6,
+    87.5,
+    88.0,
+    88.4,
+    89.3,
+    89.7,
+    90.1,
+    90.6,
+    92.9,
+    93.3,
+    94.1,
+    95.0,
+    95.5,
 ]
 
-bin_files = [
-    "fft_captures_24-04-15_20-08-20_87.5MHz.bin",
-    "fft_captures_24-04-15_20-08-20_88.4MHz.bin",
-]
+dt = "24-04-16_17-39-35"
+bin_files = []
 
-csv_filename = "fft_captures_24-04-15_20-08-20.csv"
+for channel in channels:
+    bin_files.append("fft_captures_" + dt + '_' + str(channel) + "MHz.bin")
+
+# bin_files = [
+#     "fft_captures_24-04-16_17-39-35_87.5MHz.bin",
+#     "fft_captures_24-04-16_17-39-35_88.0MHz.bin",
+#     "fft_captures_24-04-16_17-39-35_88.4MHz.bin",
+#     "fft_captures_24-04-16_17-39-35_89.3MHz.bin",
+#     "fft_captures_24-04-16_17-39-35_89.7MHz.bin",
+#     "fft_captures_24-04-16_17-39-35_90.1MHz.bin",
+#     "fft_captures_24-04-16_17-39-35_90.6MHz.bin",
+#     "fft_captures_24-04-16_17-39-35_92.9MHz.bin",
+#     "fft_captures_24-04-16_17-39-35_93.3MHz.bin",
+#     "fft_captures_24-04-16_17-39-35_94.1MHz.bin",
+#     "fft_captures_24-04-16_17-39-35_95.0MHz.bin",
+#     "fft_captures_24-04-16_17-39-35_95.5MHz.bin",
+# ]
+
+csv_filename = "fft_captures_" + dt + ".csv"
 
 delim = ","
 max_data_segments_to_read = 100
@@ -27,7 +53,7 @@ np.set_printoptions(threshold=sys.maxsize)  # снимаем ограничен�
 # можно доставать все эти параметры из название файла
 cutoff_freq = 50e3
 fft_size = 1 << 10
-samp_rate = 120e3
+samp_rate = 200e3
 step = samp_rate / fft_size
 start = int(cutoff_freq / step)
 stop = start * 2
@@ -38,7 +64,7 @@ with open(csv_filename, "w") as target:
 
     channels_count = 0
     for filename in bin_files:
-        channel_freq = channels[channels_count]
+        channel_freq = int(channels[channels_count] * 1e6)
         channels_count += 1
         with open(filename, "rb") as source:
             ii = 0
